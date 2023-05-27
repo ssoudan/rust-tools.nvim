@@ -12,8 +12,19 @@ end
 local function get_opts()
   local range = vim.lsp.util.make_range_params()
 
-  local start_pos = pos_to_lsp_pos(vim.fn.getpos("v"))
-  local end_pos = pos_to_lsp_pos(vim.fn.getpos("."))
+  local start_pos
+  local end_pos
+  local mode = vim.api.nvim_get_mode().mode
+  start_pos = pos_to_lsp_pos(vim.fn.getpos("v"))
+  end_pos = pos_to_lsp_pos(vim.fn.getpos("."))
+  if start_pos.line > end_pos.line or start_pos.line == end_pos.line and start_pos.character > end_pos.character then
+    start_pos, end_pos = end_pos, start_pos
+  end
+  -- print(vim.inspect(start_pos) .. ".." .. vim.inspect(end_pos))
+  if mode == "V" then
+    start_pos.character = 0
+    end_pos.character = vim.fn.getline(end_pos.line + 1):len()
+  end
   -- vim.notify("start_pos: " .. vim.inspect(start_pos), vim.log.levels.INFO)
   -- vim.notify("end_pos: " .. vim.inspect(end_pos), vim.log.levels.INFO)
 
@@ -32,14 +43,7 @@ local function get_opts()
 end
 
 function M.hover_range()
-  -- rt.utils.request(0, "textDocument/hover", get_opts(), function(...)
-  --   vim.print("Callback:")
-  --   vim.print(...)
-  --   vim.print("End of callback")
-  -- end)
-  -- vim.notify(vim.inspect(get_opts()), vim.log.levels.INFO)
   rt.utils.request(0, "textDocument/hover", get_opts(), function(...)
-    -- vim.print(...)
     require("rust-tools.hover_actions").handler(...)
   end)
 end
