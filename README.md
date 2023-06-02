@@ -22,7 +22,7 @@ using `packer.nvim`
 
 ```lua
 use 'neovim/nvim-lspconfig'
-use 'simrat39/rust-tools.nvim'
+use 'Ciel-MC/rust-tools.nvim'
 
 -- Debugging
 use 'nvim-lua/plenary.nvim'
