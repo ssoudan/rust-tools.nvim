@@ -28,7 +28,7 @@ function M.execute_command(command, args, cwd)
     latest_buf_id,
     "n",
     "<Esc>",
-    ":q<CR>",
+    "<CMD>q<CR>",
     { noremap = true }
   )
 
