@@ -132,7 +132,7 @@ end
 
 -- from mfussenegger/nvim-lsp-compl@29a81f3
 function M.request(bufnr, method, params, handler)
-  return vim.lsp.buf_request(bufnr, method, params, M.mk_handler(handler))
+  return vim.lsp.buf_request(bufnr, method, params, handler and M.mk_handler(handler) or nil)
 end
 
 function M.is_ra_server(client)

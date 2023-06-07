@@ -43,9 +43,7 @@ local function get_opts()
 end
 
 function M.hover_range()
-  rt.utils.request(0, "textDocument/hover", get_opts(), function(...)
-    require("rust-tools.hover_actions").handler(...)
-  end)
+  rt.utils.request(0, "textDocument/hover", get_opts())
 end
 
 return M
