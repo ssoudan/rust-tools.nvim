@@ -7,7 +7,7 @@ _G.rust_tools_get_graphviz_backends = function()
   return M.options.tools.crate_graph.enabled_graphviz_backends
 end
 
-local defaults = {
+M.options = {
   tools = { -- rust-tools options
 
     -- how to execute terminal commands
@@ -185,15 +185,8 @@ local defaults = {
     },
   },
 }
-
-M.options = {
-  tools = {},
-  server = {},
-  dap = {},
-}
-
 function M.setup(options)
-  M.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
+  M.options = vim.tbl_deep_extend("force", M.options, options)
 end
 
 return M
