@@ -14,6 +14,10 @@ local defaults = {
     -- options right now: termopen / quickfix / toggleterm / vimux
     executor = require("rust-tools.executors").termopen,
 
+    -- Customize how web browser is launched
+    -- Useful for when netrw is disabled
+    browser = function(url) vim.fn["netrw#BrowseX"](url, 0) end,
+
     -- callback to execute once rust-analyzer is done initializing the workspace
     -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
     on_initialized = nil,
