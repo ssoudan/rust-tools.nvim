@@ -18,8 +18,9 @@ local function handler(_, result, ctx)
 end
 
 -- Sends the request to rust-analyzer to get cargo.tomls location and open it
-function M.open_cargo_toml()
-  rt.utils.request(0, "experimental/openCargoToml", get_params(), handler)
+function M.open_cargo_toml(h)
+  h = h or handler
+  rt.utils.request(0, "experimental/openCargoToml", get_params(), h)
 end
 
 return M
