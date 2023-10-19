@@ -7,6 +7,7 @@ _G.rust_tools_get_graphviz_backends = function()
   return M.options.tools.crate_graph.enabled_graphviz_backends
 end
 
+--- @class RustToolsOptions
 M.options = {
   tools = { -- rust-tools options
 
@@ -185,6 +186,7 @@ M.options = {
     },
   },
 }
+--- @param options RustToolsOptions
 function M.setup(options)
   M.options = vim.tbl_deep_extend("force", M.options, options)
 end
