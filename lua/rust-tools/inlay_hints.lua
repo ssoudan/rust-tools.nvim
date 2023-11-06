@@ -2,6 +2,10 @@ local rt = require("rust-tools")
 
 local M = {}
 
+if vim.version().minor >= 10 then
+  error("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
+
 function M.new()
   M.namespace = vim.api.nvim_create_namespace("textDocument/inlayHints")
   local self = setmetatable({ cache = {}, enabled = false }, { __index = M })
