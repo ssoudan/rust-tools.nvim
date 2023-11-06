@@ -62,27 +62,29 @@ function M.setup(opts)
   M.hover_range = hover_range
 
   local inlay = require("rust-tools.inlay_hints")
-  local hints = inlay.new()
-  M.inlay_hints = {
-    enable = function()
-      inlay.enable(hints)
-    end,
-    disable = function()
-      inlay.disable(hints)
-    end,
-    set = function()
-      inlay.set(hints)
-    end,
-    unset = function()
-      inlay.unset()
-    end,
-    cache = function()
-      inlay.cache_render(hints)
-    end,
-    render = function()
-      inlay.render(hints)
-    end,
-  }
+  if vim.version().minor <= 9 then
+    local hints = inlay.new()
+    M.inlay_hints = {
+      enable = function()
+        inlay.enable(hints)
+      end,
+      disable = function()
+        inlay.disable(hints)
+      end,
+      set = function()
+        inlay.set(hints)
+      end,
+      unset = function()
+        inlay.unset()
+      end,
+      cache = function()
+        inlay.cache_render(hints)
+      end,
+      render = function()
+        inlay.render(hints)
+      end,
+    }
+  end
 
   local join_lines = require("rust-tools.join_lines")
   M.join_lines = join_lines

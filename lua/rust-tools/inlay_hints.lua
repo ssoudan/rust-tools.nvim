@@ -2,9 +2,6 @@ local rt = require("rust-tools")
 
 local M = {}
 
-if vim.version().minor >= 10 then
-  error("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
-end
 
 function M.new()
   M.namespace = vim.api.nvim_create_namespace("textDocument/inlayHints")
@@ -20,6 +17,9 @@ end
 
 -- Disable hints and clear all cached buffers
 function M.disable(self)
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   self.disable = false
   M.disable_cache_autocmd()
 
@@ -31,6 +31,9 @@ function M.disable(self)
 end
 
 local function set_all(self)
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     M.cache_render(self, bufnr)
   end
@@ -38,6 +41,9 @@ end
 
 -- Enable auto hints and set hints for the current buffer
 function M.enable(self)
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   self.enabled = true
   M.enable_cache_autocmd()
   set_all(self)
@@ -45,15 +51,24 @@ end
 
 -- Set inlay hints only for the current buffer
 function M.set(self)
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   M.cache_render(self, 0)
 end
 
 -- Clear hints only for the current buffer
 function M.unset()
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   clear_ns(0)
 end
 
 function M.enable_cache_autocmd()
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   local opts = rt.config.options.tools.inlay_hints
   vim.cmd(
     string.format(
@@ -71,6 +86,9 @@ function M.enable_cache_autocmd()
 end
 
 function M.disable_cache_autocmd()
+if vim.version().minor >= 10 then
+  vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+end
   vim.cmd([[
     augroup InlayHintsCache
     autocmd!
