@@ -84,6 +84,18 @@ function M.setup(opts)
         inlay.render(hints)
       end,
     }
+  else
+    local function inlay_deprecation()
+      vim.notify("Neovim 0.10 and above natively supports inlay hints, so please use that instead")
+    end
+    M.inlay_hints = {
+      enable = inlay_deprecation,
+      disable = inlay_deprecation,
+      set = inlay_deprecation,
+      unset = inlay_deprecation,
+      cache = inlay_deprecation,
+      render = inlay_deprecation,
+    }
   end
 
   local join_lines = require("rust-tools.join_lines")

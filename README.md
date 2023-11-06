@@ -173,6 +173,18 @@ rt.setup({
 
 <details>
   <summary>
+	<b>Cargo command wrapper</b>
+  </summary>
+  
+  ```lua
+  -- Command:
+  -- Cargo (with config.tools.cargo_wrapper set to true)
+  require'rust-tools'.cargo_command.cargo({ "run", "--release" })
+  ```
+</details>
+
+<details>
+  <summary>
 	<b>Parent Module</b>
   </summary>
   
