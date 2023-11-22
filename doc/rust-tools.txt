@@ -1,9 +1,10 @@
-*rust-tools.txt*          For NVIM v0.8.0         Last change: 2023 October 19
+*rust-tools.txt*         For NVIM v0.8.0         Last change: 2023 November 22
 
 ==============================================================================
 Table of Contents                               *rust-tools-table-of-contents*
 
-1. rust-tools.nvim                                |rust-tools-rust-tools.nvim|
+1. This is a fork of simrat39/rust-tools.nvim|rust-tools-this-is-a-fork-of-simrat39/rust-tools.nvim|
+2. rust-tools.nvim                                |rust-tools-rust-tools.nvim|
   - Quick Links                       |rust-tools-rust-tools.nvim-quick-links|
   - Prerequisites                   |rust-tools-rust-tools.nvim-prerequisites|
   - Installation                     |rust-tools-rust-tools.nvim-installation|
@@ -14,19 +15,23 @@ Table of Contents                               *rust-tools-table-of-contents*
   - Inspiration                       |rust-tools-rust-tools.nvim-inspiration|
 
 ==============================================================================
-1. rust-tools.nvim                                *rust-tools-rust-tools.nvim*
+1. This is a fork of simrat39/rust-tools.nvim*rust-tools-this-is-a-fork-of-simrat39/rust-tools.nvim*
+
+
+==============================================================================
+2. rust-tools.nvim                                *rust-tools-rust-tools.nvim*
 
 A plugin to improve your rust experience in neovim.
 
 
 QUICK LINKS                           *rust-tools-rust-tools.nvim-quick-links*
 
-- Wiki <https://github.com/simrat39/rust-tools.nvim/wiki>
-    - CodeLLDB Debugging <https://github.com/simrat39/rust-tools.nvim/wiki/Debugging>
-    - Standalone File <https://github.com/simrat39/rust-tools.nvim/wiki/Standalone-File-Support>
-- |rust-tools-installation|
-- |rust-tools-setup|
-- |rust-tools-usage|
+Wiki links go to the original repo, as no additional documentation is necessary
+at the moment. - Wiki <https://github.com/simrat39/rust-tools.nvim/wiki> -
+CodeLLDB Debugging <https://github.com/simrat39/rust-tools.nvim/wiki/Debugging>
+- Standalone File
+<https://github.com/simrat39/rust-tools.nvim/wiki/Standalone-File-Support> -
+|rust-tools-installation| - |rust-tools-setup| - |rust-tools-usage|
 
 
 PREREQUISITES                       *rust-tools-rust-tools.nvim-prerequisites*
@@ -117,7 +122,15 @@ Note: Requires rust-analyzer version after 2021-08-02. Shows the type in visual 
 `lua   -- Command:   -- RustHoverRange    require'rust-tools'.hover_range.hover_range()`Open Cargo.toml ~
 
 
-`lua   -- Command:   -- RustOpenCargo   require'rust-tools'.open_cargo_toml.open_cargo_toml()`Parent Module ~
+`lua   -- Command:   -- RustOpenCargo   require'rust-tools'.open_cargo_toml.open_cargo_toml()`Cargo command wrapper ~
+
+>lua
+      -- Command:
+      -- Cargo (with config.tools.cargo_wrapper set to true)
+      require'rust-tools'.cargo_command.cargo({ "run", "--release" })
+<
+
+Parent Module ~
 
 
 `lua   -- Command:   -- RustParentModule    require'rust-tools'.parent_module.parent_module()`Join Lines ~
@@ -147,12 +160,16 @@ setup function that you want to be changed, because the defaults are applied
 for keys that are not provided.
 
 >lua
-    local opts = {
+    M.options = {
       tools = { -- rust-tools options
     
         -- how to execute terminal commands
         -- options right now: termopen / quickfix / toggleterm / vimux
         executor = require("rust-tools.executors").termopen,
+    
+        -- Customize how web browser is launched
+        -- Useful for when netrw is disabled
+        browser = function(url) vim.fn["netrw#BrowseX"](url, 0) end,
     
         -- callback to execute once rust-analyzer is done initializing the workspace
         -- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
@@ -160,6 +177,10 @@ for keys that are not provided.
     
         -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
         reload_workspace_from_cargo_toml = true,
+    
+        -- Automatically adds the manifest path of your current buffer to the `Cargo command` instead of using the cwd
+        -- This is helpful for things like monorepos where your cwd may not necessarily be the root of the workspace
+        cargo_wrapper = true,
     
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
@@ -200,20 +221,6 @@ for keys that are not provided.
     
         -- options same as lsp hover / vim.lsp.util.open_floating_preview()
         hover_actions = {
-    
-          -- the border that is used for the hover window
-          -- see vim.api.nvim_open_win()
-          border = {
-            { "╭", "FloatBorder" },
-            { "─", "FloatBorder" },
-            { "╮", "FloatBorder" },
-            { "│", "FloatBorder" },
-            { "╯", "FloatBorder" },
-            { "─", "FloatBorder" },
-            { "╰", "FloatBorder" },
-            { "│", "FloatBorder" },
-          },
-    
           -- Maximal width of the hover window. Nil means no max.
           max_width = nil,
     
@@ -321,8 +328,6 @@ for keys that are not provided.
         },
       },
     }
-    
-    require('rust-tools').setup(opts)
 <
 
 
@@ -337,7 +342,7 @@ This plugin draws inspiration from `akinsho/flutter-tools.nvim`
 <https://github.com/akinsho/flutter-tools.nvim>
 
 ==============================================================================
-2. Links                                                    *rust-tools-links*
+3. Links                                                    *rust-tools-links*
 
 1. *debugging*: https://github.com/simrat39/rust-tools-demos/raw/master/rust-tools-debug.gif
 2. *inlay hints*: https://github.com/simrat39/rust-tools-demos/raw/master/inlay_hints.png
