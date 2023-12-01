@@ -26,6 +26,10 @@ M.options = {
     -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
     reload_workspace_from_cargo_toml = true,
 
+    -- Automatically adds the manifest path of your current buffer to the `Cargo command` instead of using the cwd
+    -- This is helpful for things like monorepos where your cwd may not necessarily be the root of the workspace
+    cargo_wrapper = true,
+
     -- These apply to the default RustSetInlayHints command
     inlay_hints = {
       -- automatically set inlay hints (type hints)

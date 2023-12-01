@@ -26,6 +26,11 @@ end
 local function setup_commands()
   local lsp_opts = rt.config.options.server
 
+  if rt.config.options.tools.cargo_wrapper then
+    require('rust-tools.cargo_command').register_ex_command()
+    vim.g.cargo_shell_command_runner = "CargoWrapper"
+  end
+
   lsp_opts.commands = vim.tbl_deep_extend("force", lsp_opts.commands or {}, {
     RustCodeAction = {
       rt.code_action_group.code_action_group,
@@ -195,9 +200,9 @@ local function get_root_dir(filename)
     cargo_workspace_dir = vim.fn.json_decode(cargo_metadata)["workspace_root"]
   end
   return cargo_workspace_dir
-    or cargo_crate_dir
-    or lspconfig_utils.root_pattern("rust-project.json")(fname)
-    or lspconfig_utils.find_git_ancestor(fname)
+      or cargo_crate_dir
+      or lspconfig_utils.root_pattern("rust-project.json")(fname)
+      or lspconfig_utils.find_git_ancestor(fname)
 end
 
 local function setup_root_dir()
@@ -212,9 +217,9 @@ function M.start_standalone_if_required()
   local current_buf = vim.api.nvim_get_current_buf()
 
   if
-    lsp_opts.standalone
-    and rt.utils.is_bufnr_rust(current_buf)
-    and (get_root_dir() == nil)
+      lsp_opts.standalone
+      and rt.utils.is_bufnr_rust(current_buf)
+      and (get_root_dir() == nil)
   then
     require("rust-tools.standalone").start_standalone_client()
   end

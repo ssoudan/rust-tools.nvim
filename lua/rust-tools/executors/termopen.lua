@@ -5,10 +5,12 @@ local M = {}
 local latest_buf_id = nil
 
 function M.execute_command(command, args, cwd)
-  local full_command = utils.chain_commands({
-    utils.make_command_from_args("cd", { '"' .. cwd .. '"' }),
-    utils.make_command_from_args(command, args),
-  })
+  local commands = {}
+  if cwd ~= nil then
+    table.insert(commands, utils.make_command_from_args("cd", { '"' .. cwd .. '"' }))
+  end
+  table.insert(commands, utils.make_command_from_args(command, args))
+  local full_command = utils.chain_commands(commands)
 
   -- check if a buffer with the latest id is already open, if it is then
   -- delete it and continue

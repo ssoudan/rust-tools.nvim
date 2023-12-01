@@ -2,6 +2,7 @@ local rt = require("rust-tools")
 
 local M = {}
 
+
 function M.new()
   M.namespace = vim.api.nvim_create_namespace("textDocument/inlayHints")
   local self = setmetatable({ cache = {}, enabled = false }, { __index = M })
